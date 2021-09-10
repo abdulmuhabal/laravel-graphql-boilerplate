@@ -1,0 +1,62 @@
+.table-responsive{
+    direction: rtl;
+    text-align: right;
+  }
+.page-item:last-child .page-link {
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
+border-top-left-radius: 0.25rem;
+border-bottom-left-radius: 0.25rem;
+}
+.page-item:first-child .page-link{
+margin-left: 0;
+border-top-left-radius: 0;
+border-bottom-left-radius: 0;
+border-top-right-radius: 0.25rem;
+border-bottom-right-radius: 0.25rem;
+}
+
+div.dataTables_wrapper div.dataTables_filter{
+text-align:left;
+}
+
+.card {
+    direction: rtl;
+    text-align:right;
+}
+
+.card.card-authentication1 {
+    direction: ltr;
+    text-align: left;
+  }
+
+.card .card-body .nav{
+    padding-right: 0;
+}
+.sidebar-menu>li:hover>a, .sidebar-menu>li.active>a{
+  border-left-color: 0 !important;
+  border-right-color: #263571;
+
+}
+.sidebar-menu>li>a{
+  padding: 13px 15px 13px 5px;
+  border-left: 0 !important;
+  border-right: 3px solid transparent;
+}
+
+.sidebar-menu li a i:last-child{
+      margin-right: 0;
+      font-size: 16px;
+      margin-left: 10px;
+}
+
+.bg-custom-primary{
+  background: linear-gradient(180.02deg, rgba(72, 202, 255, 0.83) 0.02%, rgba(70, 188, 232, 0) 93.44%), radial-gradient(64.04% 64.04% at 97.07% 100%, #9F0EFE 21.06%, rgba(159, 14, 254, 0) 100%), radial-gradient(197.67% 131.77% at 0% 98.79%, #1E27BA 35.12%, rgba(71, 187, 232, 0.19) 100%), #47BBE8 !important;
+}
+
+
+
+
+
+
+

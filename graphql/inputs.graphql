@@ -1,0 +1,128 @@
+# Inputs #
+
+input LoginInput {
+	username: String! @rules(apply: ["required"])
+	password: String! @rules(apply: ["required", "min:6"])
+}
+
+input RegisterInput {
+	first_name: String! @rules(apply: ["required", "string"])
+	last_name: String! @rules(apply: ["required", "string"])
+	email: String @rules(apply: ["email", "unique:users,email"])
+	country_code: String! @rules(apply: ["required"])
+	phone: String! @rules(apply: ["required", "digits:10"])
+	password: String! @rules(apply: ["required", "confirmed", "min:8"])
+	password_confirmation: String!
+}
+
+input OrderByInput {
+	field: String!
+	order: SortOrder!
+}
+
+input UpdateUserInput {
+	name: String @rules(apply: ["string"])
+	email: String @rules(apply: ["email", "unique:users,email"])
+	phone: String @rules(apply: ["digits:10", "unique:users,phone" ])
+	country_code: String @rules(apply: ["digits:10", "unique:users,phone" ])
+	password: String @rules(apply: ["confirmed", "min:8"])
+	password_confirmation: String
+	first_name: String
+	middle_name: String
+	last_name: String
+	gender: Genders
+	profile_photo: String
+	id_number: String
+	birthdate: Date
+	country_id: ID
+	city_id: ID
+}
+
+input OtpVerifyInput {
+	phone: String
+	email: String
+	otp_code: String!
+}
+
+input ResetPasswordInput {
+	id: ID!  @rules(apply: ["required"])
+	password: String! @rules(apply: ["required", "confirmed", "min:8"])
+	password_confirmation: String
+}
+
+input CreateBookingInput {
+	timing_id: ID!
+	booking_date: Date!
+}
+
+input UpdateBookingInput {
+    id: ID!
+	timing_id: ID
+	booking_date: Date
+    status: BookingStatuses
+}
+
+input CreateClientSubscriptionInput {
+	name: String!
+	phone: String! @rules(apply: ["required", "min:10"])
+    duration_id: ID!
+	message: String
+	description: String
+    preferred_time: PreferredTimeOption!
+}
+
+input SubscribeToBookInput {
+	name: String! @rules(apply: ["required", "string"])
+	email: String! @rules(apply: ["required", "email", "unique:users,email"])
+	phone: String! @rules(apply: ["required", "min:10", "unique:users,phone"])
+	password: String! @rules(apply: ["required", "confirmed", "min:8"])
+	password_confirmation: String!
+	duration_id: ID!
+	message: String
+}
+
+input CreateContactUsInput {
+	user_id: ID!
+	name: String
+	phone: String
+	subject: String
+	message: String
+}
+
+input UpdateContactUsInput {
+	id: ID!
+	user_id: ID
+	name: String
+	phone: String
+	subject: String
+	message: String
+}
+
+
+input CreateConsultationInput {
+    type: ConsultationTypes
+    category_id: ID
+    title_id: ID
+    client_message: String
+    lawyer_response: String
+    status: ConsultationStatuses
+}
+
+input UpdateConsultationInput {
+	id: ID
+    type: ConsultationTypes
+    category_id: ID
+    title_id: ID
+    client_message: String
+    lawyer_response: String
+    status: ConsultationStatuses
+}
+
+input RateConsultationInput {
+	id: ID
+	rate: Int
+}
+
+input SetSubscriptionInput {
+	subscription_plan_id: ID
+}

@@ -1,0 +1,148 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime
+	@scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date 
+	@scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+scalar Upload
+  	@scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+
+type Mutation {
+	login(input: LoginInput @spread): UserResponse!
+		@field(resolver: "LoginMutator")
+
+	register(input: RegisterInput @spread): RegisterResponse!
+		@field(resolver: "RegisterMutator")
+
+	otpVerify(input: OtpVerifyInput! @spread): OtpVerifyResponse
+		@field(resolver: "OtpVerifyMutator")
+
+	resendOtpCode(
+		phone: String @rules(apply: [ "required_without:email", "digits:10", "numeric"])
+		email: String @rules(apply: [ "required_without:phone", "email"])
+		): ResendOtpCodeResponse
+		@field(resolver: "ResendOtpMutator")
+
+	imageUpload(photo: Upload!):
+		ImageUploadResponse
+		@field(resolver: "ImageUploadMutator")
+	
+	# requestResetPassword(phone: String @rules(apply: ["required", "min:10", "numeric"])): RequestResetPasswordResponse
+	# 	@field(resolver: "RequestResetPasswordByPhoneMutator")
+	resetPassword(input: ResetPasswordInput): ResetPasswordResponse 
+		@field(resolver: "ResetPasswordMutator")
+	
+}
+
+extend type Mutation @middleware(checks: ["auth:api"]) {
+	logout: LogoutResponse! @field(resolver: "LogoutMutator")
+
+	updateUser(input: UpdateUserInput! @spread): UserResponse 
+		@field(resolver: "UpdateUserMutator")
+
+	createConsultation(input: CreateConsultationInput! @spread): Consultation
+		@field(resolver: "CreateConsultationMutator")
+	updateContactUs(input: UpdateConsultationInput! @spread): Consultation 
+		@update(model: "App\\Model\\Consultation")
+	deleteContactUs(id: ID!): Consultation 
+		@delete(model: "App\\Model\\Consultation")
+
+	rateConsultation(input: RateConsultationInput! @spread): Consultation
+		@field(resolver: "RateConsultationMutator")
+
+	createContactUs(input: CreateContactUsInput! @spread): ContactUs 
+		@create(model: "App\\Model\\ContactUs")
+	updateContactUs(input: UpdateContactUsInput! @spread): ContactUs 
+		@update(model: "App\\Model\\ContactUs")
+	deleteContactUs(id: ID!): ContactUs 
+		@delete(model: "App\\Model\\ContactUs")
+
+	setSubscription(input: SetSubscriptionInput @spread): CheckSubscriptionResponse
+		@field(resolver: "SetSubscriptionMutator")
+
+	# checkCanCancel(booking_date: Date):
+	# 	CheckCanCancelResponse
+	# 	@field(resolver: "CanCancelMutator")
+	
+	# newUserNotifications:
+	# 	NewUserNotifications
+	# 	@field(resolver: "NewUserNotificationsMutator")
+
+	checkSubscription:
+		CheckSubscriptionResponse
+		@field(resolver: "CheckSubscriptionMutator")
+}
+
+type Query {
+	users(role: Roles @eq, orderBy: [OrderByInput!] @orderBy): 
+		[User!]
+		@paginate(type: "paginator", model: "App\\User", defaultCount: 10)
+
+	user(id: ID @eq): 
+		User 
+		@find(model: "App\\User")
+
+	adminSettings: AdminSettings 
+		@first(model: "App\\Model\\AdminSettings")
+
+	ads: [Advertisement]
+		@paginate(type: "paginator", model: "App\\Model\\Advertisement", defaultCount: 10)
+
+	post(id: ID): Post
+		@find(model: "App\\Model\\Post")
+
+	posts(orderBy: [OrderByInput!] @orderBy): [Post]
+		@paginate(type: "paginator", model: "App\\Model\\Post", defaultCount: 10)
+
+	categories(orderBy: [OrderByInput!] @orderBy): [Category]
+		@paginate(type: "paginator", model: "App\\Model\\Category", defaultCount: 10)
+	
+	titles(orderBy: [OrderByInput!] @orderBy): [Title]
+		@paginate(type: "paginator", model: "App\\Model\\Title", defaultCount: 10)
+
+	subcriptionPlans(orderBy: [OrderByInput!] @orderBy): [SubcriptionPlan]
+		@paginate(type: "paginator", model: "App\\Model\\SubscriptionPlan", defaultCount: 10)
+
+	cities(orderBy: [OrderByInput!] @orderBy): [City]
+		@paginate(type: "paginator", model: "App\\Model\\City", defaultCount: 10)
+
+	countries(orderBy: [OrderByInput!] @orderBy): [Country]
+		@paginate(type: "paginator", model: "App\\Model\\Country", defaultCount: 10)
+	
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+	me: User @auth
+
+	activeConsultation(orderBy: [OrderByInput!] @orderBy):
+		Consultation
+		@paginate(builder: "App\\GraphQL\\CustomQueries\\ConsultationQuery@activeQuery")
+	historyConsultation(orderBy: [OrderByInput!] @orderBy):
+		Consultation
+		@paginate(builder: "App\\GraphQL\\CustomQueries\\ConsultationQuery@historyQuery")
+
+	# bookings(id: ID, current: Boolean)
+	# 	: [Booking]
+	# 	@paginate(builder: "App\\GraphQL\\CustomQueries\\BookingQuery@search")
+	
+	logNotifications(orderBy: [OrderByInput!] @orderBy) :
+		LogNotification
+		@paginate(builder: "App\\GraphQL\\CustomQueries\\NotificationQuery@search")
+
+	invoice(id: ID): Invoice
+		@find(model: "App\\Model\\Invoice")
+
+	invoices(orderBy: [OrderByInput!] @orderBy):
+		Invoice
+		@paginate(type: "paginator", model: "App\\Model\\Invoice", defaultCount: 10)
+}
+
+
+
+
+#import models.graphql
+#import inputs.graphql
+#import responses.graphql
+#import enums.graphql

@@ -1,0 +1,71 @@
+# Responses
+
+type UserResponse {
+	user: User!
+	token: String!
+}
+
+type RegisterResponse {
+	user: User!
+}
+
+type RoleResponse {
+	name: String!
+}
+
+type LogoutResponse {
+	status: String!
+	message: String!
+}
+
+type OtpVerifyResponse {
+	status: String!
+	message: String!
+	token: String!
+	# created_at: DateTime
+	# time_now: DateTime
+}
+
+type RequestResetPasswordResponse {
+	status: String!
+	message: String!
+}
+
+type ResendOtpCodeResponse {
+	status: String!
+	message: String!
+}
+
+type ResetPasswordResponse {
+	status: String!
+	message: String!
+}
+
+type ImageUploadResponse {
+	status: String!
+	message: String!
+	photo: PhotoResponse
+}
+
+type PhotoResponse {
+	filename: String!
+	url: String!
+}
+
+type SendOtpResponse {
+	otp_code: String!
+}
+
+type CheckCanCancelResponse {
+	can_cancel: Boolean
+	booking_date: Date
+}
+
+type NewUserNotifications {
+	new_notif: Boolean
+}
+
+type CheckSubscriptionResponse {
+	subscribed: Boolean
+	expiry_date: Date
+}

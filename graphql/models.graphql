@@ -1,0 +1,182 @@
+# Models
+
+type TestResponse {
+	message: String
+}
+
+type User {
+	id: ID
+	email: String
+    country_code: String
+	phone: String
+	role: Roles!
+    created_at: DateTime
+    updated_at: DateTime
+    is_verified: Boolean
+    is_subscribed: Boolean
+    user_profile: UserProfile @hasOne(relation: "userProfile")
+    otp_code: String
+    subscription_id: String
+}
+
+type UserProfile {
+    id: ID
+    user_id: ID
+    user: User
+    first_name: String
+    middle_name: String
+    last_name: String
+    gender: String
+    profile_photo: String
+    email: String
+    phone: String
+    country_code: String
+    id_number: String
+    birthdate: String
+    country_id: ID
+    city_id: ID
+    country: Country
+    city: City
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Post{
+    id: ID
+    title_ar: String
+    title_en: String
+    description_ar: String
+    description_en: String
+    author_name: String
+    # read: Boolean
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Invoice{
+    id: ID
+    user_id: ID
+    price: Float
+    vat: Float
+    total_price: Float
+    paid: PaidStatuses
+    transaction_id: String
+    tin_number: String
+    order_number: String
+    payment_date: DateTime
+}
+
+type AdminSettings {
+	id: ID!
+	name_en: String
+	name_ar: String
+	about_us_en: String
+	about_us_ar: String
+	terms_en: String
+	terms_ar: String
+	twitter_url: String
+	facebook_url: String
+	instagram_url: String
+	linkedin_url: String
+    call_us_phone: String
+    office_number: String
+    fax_number: String
+	created_at: DateTime!
+	updated_at: DateTime!
+}
+
+type ContactUs {
+	id: ID!
+	user: User
+	phone: String
+	subject: String
+	message: String
+	created_at: DateTime!
+	updated_at: DateTime!
+}
+
+type Faq {
+	id: ID!
+	title: String
+	description: String
+	created_at: DateTime!
+	updated_at: DateTime!
+}
+
+type LogNotification {
+	id: ID!
+    user: User
+    user_to_notify: User @belongsTo(relation: "userToNotify")
+	message_en: String
+	message_ar: String
+	created_at: DateTime!
+	updated_at: DateTime!
+}
+
+type Advertisement {
+	id: ID!
+    photo_url: String
+	created_at: DateTime
+	updated_at: DateTime
+}
+
+
+type Country {
+    id: ID
+    name_ar: String
+    name_en: String
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type City {
+    id: ID
+    name_ar: String
+    name_en: String
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Category{
+    id: ID
+    name_ar: String
+    name_en: String
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Title{
+    id: ID
+    name_ar: String
+    name_en: String
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Consultation{
+    id: ID
+    user_id: ID
+    user: User
+    type: ConsultationTypes
+    category_id: ID
+    category: Category
+    title_id: ID
+    title: Title
+    client_message: String
+    lawyer_response: String
+    status: ConsultationStatuses
+    rate: Int
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type SubcriptionPlan{
+    id: ID
+    name_en: String
+    name_ar: String
+    description_ar: String
+    description_en: String
+    price: Float
+    created_at: DateTime
+    updated_at: DateTime
+}

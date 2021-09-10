@@ -1,0 +1,68 @@
+#Enums
+
+enum Roles {
+	ADMIN
+	CLIENT
+}
+
+enum Genders {
+	MALE
+	FEMALE
+}
+
+enum RequestStatuses {
+	CANCELLED
+	PENDING
+	SKIPPED
+	ACCEPTED
+	COMPLETED
+}
+
+enum BookingStatuses {
+	PENDING
+	COMPLETED
+	CANCELLED
+}
+
+enum OfferStatuses {
+	CANCELLED
+	PENDING
+	SKIPPED
+	ACCEPTED
+	COMPLETED
+}
+
+enum SortOrder {
+	ASC
+	DESC
+}
+
+enum PreferredTimeOption{
+	MORNING
+	EVENING
+}
+
+enum SubscriptionStatuses{
+	NOT_SUBSCRIBED
+	SUBSCRIBED
+	EXPIRED
+}
+
+enum PaidStatuses{
+	PENDING
+	PAID
+	CANCELLED
+}
+
+enum ConsultationStatuses{
+	PENDING
+	IN_PROGRESS
+	ANSWERED
+	REJECTED
+}
+
+enum ConsultationTypes{
+	CALL
+	CHAT
+	EMAIL
+}
